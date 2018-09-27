@@ -1,0 +1,252 @@
+---
+title: Interactive plots using R  
+author: |
+ | Matthew Malishev^1^*
+ | _^1^ Department of Biology, Emory University, 1510 Clifton Road NE, Atlanta, GA, USA, 30322_
+#bibliography:/Users/malishev/Documents/Melbourne Uni/Thesis_2016/library.bib
+fontsize: 10
+geometry: margin=1in
+documentclass: article
+linkcolor: pink
+urlcolor: blue
+citecolor: red
+output:
+  html_document:
+    highlight: tango
+    code_folding: hide
+    toc: yes
+    toc_depth: 4
+    number_sections: no
+    toc_float: yes
+  pdf_document:
+    includes:
+      in_header: # add .tex file with header content
+    highlight: tango
+    template: null
+    toc: yes
+    toc_depth: 4
+    number_sections: false
+    fig_width: 4
+    fig_height: 5
+    fig_caption: true
+    df_print: tibble 
+    citation_package: biblatex # natbib
+    latex_engine: xelatex #pdflatex # lualatex
+    keep_tex: true # keep .tex file in dir 
+  word_document:
+    highlight: tango
+    keep_md: yes
+    pandoc_args: --smart
+    #reference: mystyles.docx
+    toc: yes
+inludes:
+  before_body: before_body.tex
+subtitle: 
+tags:
+- nothing
+- nothingness
+params: 
+  dir: "/Users/malishev/Documents/Melbourne Uni/Programs/R code/rCharts"
+  date: !r Sys.Date()
+  version: !r getRversion()
+  email: "matthew.malishev@gmail.com"
+  doi: https://github.com/darwinanddavis/rInteractive
+classoption: portrait
+# ^['https://github.com/darwinanddavis/rInteractive'] # footnote
+vignette: >
+  %\VignetteIndexEntry{Useful R code}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "all"} } });
+</script>
+
+```{r echo = FALSE}
+# library(rmarkdown)
+# setwd("")
+# f <- list.files()[1]
+# render(f, output_format='pdf_document')
+```
+
+```{r, set-options, echo = FALSE, cache = FALSE}
+options(width=100)
+knitr::opts_chunk$set(
+ eval = TRUE, # run all code
+ # echo = FALSE, # show code chunks in output 
+ comment = "",
+ tidy.opts=list(width.cutoff=100), # set width of code chunks in output
+ tidy=TRUE, # make output as tidy
+ message = FALSE,  # mask all messages
+ warning = FALSE, # mask all warnings 
+ size="small" # set code chunk size
+)
+
+# https://github.com/ucb-stat133/stat133-fall-2016/blob/master/hws/hw02-tables-ggplot.Rmd
+knitr::opts_knit$set(root.dir=paste0(params$dir,"/")) # set working dir
+
+setwd(paste0(params$dir,"/")) # for running just in R not knitr
+```
+
+\  
+
+Date: `r params$date`  
+R version: `r params$version`  
+*Corresponding author: `r params$email`  
+This document can be found at `r params$doi`
+
+\newpage  
+
+## Overview  
+
+Interactive plots using javascript viz, including rCharts, d3js, leaflet, Richshaw, to name a few. `rCharts` uses multiple javascript plotting libraries.  
+### Install dependencies
+```{r, load packages, include=F, cache=F, message=F, warning=F, results='hide'}
+packages <- c("rgdal","dplyr","zoo","RColorBrewer","viridis","plyr","digitize","jpeg","devtools","imager","dplyr","ggplot2","ggridges","ggjoy","ggthemes","svDialogs","data.table","tibble","extrafont","sp")  
+
+if (require(packages)){
+    install.packages(packages,dependencies = T)
+    require(packages)
+}
+require(devtools) # get rCharts from github  
+install_github('rCharts', 'ramnathv')
+lapply(packages,library,character.only=T)
+
+```
+
+### Set plotting function  
+```{r eval=F, results="hide"}
+require("RCurl")
+script <- getURL("https://raw.githubusercontent.com/darwinanddavis/plot_it/master/plot_it.R", ssl.verifypeer = FALSE)
+eval(parse(text = script))
+
+cat("plot_it( \n0 for presentation, 1 for manuscript, \nset colour for background, \nset colour palette. use 'display.brewer.all()', \nset alpha for colour transperancy, \nset font style \n)")
+plot_it(0,"blue","Spectral","Greens",1,"mono") # set col function params
+plot_it_gg("white") # same as above 
+
+```
+
+### `rCharts`  
+#### `rCharts` plot functions  
+```{r}
+types <- c("points","line","bar");types
+```
+
+#### Scatterplot      
+```{r}
+require(rCharts)
+## Example 1 Facetted Scatterplot
+data <- iris
+names(iris) = gsub("\\.", "", names(iris))
+r1 <- rPlot(data$SepalLength~data$SepalWidth, data=data, color='Species', type='point')
+# r1$show('iframesrc', cdn  = TRUE) # chart shows up on Rpubs but not in Rmd preview 
+
+```
+
+#### Barplot  
+```{r, include=T, eval=F} 
+# need eval = F to fix 'opts_current' when knitting 
+## Example 2 Facetted Barplot
+hair_eye = as.data.frame(HairEyeColor)
+data <- hair_eye
+with(data,rPlot(Freq ~ Hair | Eye, color = 'Eye', data = hair_eye, type = "bar"))
+```
+
+### Polychart
+[Polychart](https://github.com/Polychart/polychart2)    
+```{r, include=T, eval=F} 
+# need eval = F to fix 'opts_current' when knitting 
+data <- mtcars
+r1 <- rPlot(aes(x=region,y=sum(sales)),mpg ~ wt | am + vs, data = data, type = "point", color = "gear")
+r1
+r1$print("chart1")
+```
+
+Adding javascript  
+```{javascript}
+graph_chart1.addHandler(function(type, e){
+  var data = e.evtData;
+  if (type === 'click'){
+    return alert("You clicked on car with mpg: " + data.mpg.in[0]);
+  }
+})
+```
+
+### MorrisJS  
+Interactive time series plot [with Morris JS](https://github.com/oesmith/morris.js)  
+```{r, include=T, eval=F} 
+# need eval = F to fix 'opts_current' when knitting 
+data(economics, package = "ggplot2")
+econ <- transform(economics, date = as.character(date))
+m1 <- mPlot(x = "date", y = c("psavert", "uempmed"), type = "Line", data = econ)
+m1$set(pointSize = 0, lineWidth = 1)
+m1
+# m1$print("chart2")
+
+```
+
+### Rickshaw  
+Interactive time series with [Rickshaw](http://rpubs.com/Koba/80208). See online example [here](http://timelyportfolio.github.io/rCharts_rickshaw_gettingstarted/) and troubleshooting [here](http://rpubs.com/Koba/80208).     
+```{r}
+require(slidify)
+require(rCharts)
+
+```
+
+Troubleshooting example.  
+```{r, include=F, eval=F} 
+# need eval = F to fix 'opts_current' when knitting 
+#specify the data
+data1 = data.frame(
+  c( 0, 1, 2, 3 ),
+  c( 40, 49, 17, 42 ),
+  stringsAsFactors = FALSE
+)
+colnames(data1) <- c("x","y")
+#build the plot
+r1 <- Rickshaw$new()
+r1$layer(
+  y ~ x,
+  data = data1,
+  type = "area",
+  colors= "steelblue",
+  height = 240,
+  width = 540
+)
+#turn off all the nice built in features
+#to match the sparse first example
+r1$set(
+  hoverDetail = FALSE,
+  xAxis = FALSE,
+  yAxis = FALSE,
+  shelving = FALSE,
+  legend = FALSE,
+  slider = FALSE,
+  highlight = FALSE
+)
+r1$show(T) # works locally
+r1$save('rickshaw_ts.html', cdn = T) # works as well after launching a local web server
+r1$show('iframe', cdn = TRUE) # gives 'opts_current' error
+r1$show('iframesrc', cdn  = TRUE) # chart shows up on Rpubs but not in Rmd preview
+
+r1$show('inline', include_assets = TRUE, cdn = TRUE)
+r1$print('chart1', include_assets = TRUE, cdn = TRUE)
+# both give the following error when attempting to knit:
+# pandoc: Could not find data file //cdn.strategiqcommerce.com/ajax/libs/rickshaw/1.2.1/rickshaw.min.css
+# Error: pandoc document conversion failed with error 97
+# Execution halted
+```
+
+
+### My data examples  
+Examples of packages using my own data  
+```{r}
+
+```
+
+
+### Other interactive plotting libraries in `R`  
+- [Clickme](https://github.com/nachocab/clickme)  
+- [Rickshaw](http://rpubs.com/Koba/80208)
+
