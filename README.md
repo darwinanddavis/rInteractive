@@ -1,4 +1,4 @@
-# Title
+# Interactive plots using R     
 
 ### Matthew Malishev<sup>1*</sup>
 
@@ -6,24 +6,20 @@
 
 ##### *Corresponding author: matthew.malishev@gmail.com  
 
-doi: [DOI](https://zenodo.org/badge/96968871.svg)](https://zenodo.org/badge/latestdoi/96968871)  
+doi: [[DOI](https://zenodo.org/badge/96968871.svg)](https://zenodo.org/badge/latestdoi/96968871)  
 :link: [Link to Github](https://github.com/darwinanddavis)  
 
 Versions:  
  - R 3.5.0  
- - RStudio 1.1.453  
- - JGR 3.4.1  
- - Netlogo 5.3.1  
+ - RStudio 1.1.453     
 
 ******
 
 File extensions:   
 .R  
 .Rmd  
-.nlogo     
 .csv    
 .pdf  
-.rtf  
 .html  
 
 ******  
