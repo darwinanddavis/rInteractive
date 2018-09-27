@@ -100,7 +100,8 @@ This document can be found at `r params$doi`
 
 ## Overview  
 
-Interactive plots using javascript viz, including rCharts, d3js, leaflet, Richshaw, to name a few. `rCharts` uses multiple javascript plotting libraries.  
+Interactive plots using javascript viz, including rCharts, d3js, leaflet, Richshaw, to name a few. `rCharts` uses multiple javascript plotting libraries. Sourced from [http://ramnathv.github.io/rCharts/](http://ramnathv.github.io/rCharts/).  
+
 ### Install dependencies
 ```{r, load packages, include=F, cache=F, message=F, warning=F, results='hide'}
 packages <- c("rgdal","dplyr","zoo","RColorBrewer","viridis","plyr","digitize","jpeg","devtools","imager","dplyr","ggplot2","ggridges","ggjoy","ggthemes","svDialogs","data.table","tibble","extrafont","sp")  
@@ -186,6 +187,23 @@ m1
 
 ```
 
+### NVD3  
+Interactive and re-usable charts using d3.js with [NVD3](http://nvd3.org/). Follows work of Mike Bostock with ['Towards re-usable charts'](https://bost.ocks.org/mike/chart/).      
+
+```{r, include=T, eval=F} 
+data <- HairEyeColor
+data <- subset(as.data.frame(data), Sex == "Male")
+n1 <- with(data,nPlot(Freq ~ Hair, group = "Eye", data = data, type = "multiBarChart"))
+n1
+??nPlot
+# n1$print("chart3") 
+```
+
+### xCharts  
+```{r}
+
+```
+
 ### Rickshaw  
 Interactive time series with [Rickshaw](http://rpubs.com/Koba/80208). See online example [here](http://timelyportfolio.github.io/rCharts_rickshaw_gettingstarted/) and troubleshooting [here](http://rpubs.com/Koba/80208).     
 ```{r}
@@ -245,6 +263,8 @@ Examples of packages using my own data
 
 ```
 
+### Clickme  
+Alternative to `rCharts` interactive plotting using [`Clickme`](https://github.com/nachocab/clickme).  
 
 ### Other interactive plotting libraries in `R`  
 - [Clickme](https://github.com/nachocab/clickme)  
