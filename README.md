@@ -17,10 +17,11 @@ Versions:
 
 File extensions:   
 .R  
-.Rmd  
-.csv    
+.Rmd    
 .pdf  
 .html  
+.js  
+.tex  
 
 ******  
 
