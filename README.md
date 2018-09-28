@@ -11,9 +11,7 @@ doi: [[DOI](https://zenodo.org/badge/96968871.svg)](https://zenodo.org/badge/lat
 
 Versions:  
  - R 3.5.0  
- - RStudio 1.1.453     
-
-******
+ - RStudio 1.1.453       
 
 File extensions:   
 .R  
