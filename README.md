@@ -24,8 +24,14 @@ File extensions:
 ******  
 
 ## Overview  
-Interactive plots using javascript viz, including rCharts, d3js, leaflet, Rickshaw, to name a few.    
+Interactive plots using javascript viz, including rCharts, d3js, leaflet, and Rickshaw.
 
 ## References  
-[Introduction to rCharts](http://ramnathv.github.io/rCharts/)  
+- [Clickme](https://github.com/nachocab/clickme)  
+- [NVD3](http://nvd3.org/)  
+- [Polychart](https://github.com/Polychart/polychart2)  
+- [rCharts](http://ramnathv.github.io/rCharts/)
+- [Introduction to rCharts](http://ramnathv.github.io/rCharts/)   
+- [Rickshaw](http://rpubs.com/Koba/80208)  
+- xCharts     
 
