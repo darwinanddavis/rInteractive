@@ -116,7 +116,7 @@ Clifton Road NE, Atlanta, GA, USA, 30322}}
 }
 ~
 
-Date: 2018-09-27\\
+Date: 2018-10-02\\
 R version: 3.5.0\\
 *Corresponding author:
 \href{mailto:matthew.malishev@gmail.com}{\nolinkurl{matthew.malishev@gmail.com}}\\
@@ -129,8 +129,10 @@ This document can be found at
 
 Interactive plots using javascript viz, including rCharts, d3js,
 leaflet, Richshaw, to name a few. \texttt{rCharts} uses multiple
-javascript plotting libraries.\\
-\#\#\# Install dependencies
+javascript plotting libraries. Sourced from
+\url{http://ramnathv.github.io/rCharts/}.
+
+\subsubsection{Install dependencies}\label{install-dependencies}
 
 \subsubsection{Set plotting function}\label{set-plotting-function}
 
@@ -176,9 +178,29 @@ functions}{rCharts plot functions}}\label{rcharts-plot-functions}
 
 \paragraph{Barplot}\label{barplot}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# need eval = F to fix 'opts_current' when knitting }
+\NormalTok{## Example 2 Facetted Barplot}
+\NormalTok{hair_eye =}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(HairEyeColor)}
+\NormalTok{data <-}\StringTok{ }\NormalTok{hair_eye}
+\KeywordTok{with}\NormalTok{(data,}\KeywordTok{rPlot}\NormalTok{(Freq }\OperatorTok{~}\StringTok{ }\NormalTok{Hair }\OperatorTok{|}\StringTok{ }\NormalTok{Eye, }\DataTypeTok{color =} \StringTok{'Eye'}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ hair_eye, }\DataTypeTok{type =} \StringTok{"bar"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
 \subsubsection{Polychart}\label{polychart}
 
 \href{https://github.com/Polychart/polychart2}{Polychart}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# need eval = F to fix 'opts_current' when knitting }
+\NormalTok{data <-}\StringTok{ }\NormalTok{mtcars}
+\NormalTok{r1 <-}\StringTok{ }\KeywordTok{rPlot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{region,}\DataTypeTok{y=}\KeywordTok{sum}\NormalTok{(sales)),mpg }\OperatorTok{~}\StringTok{ }\NormalTok{wt }\OperatorTok{|}\StringTok{ }\NormalTok{am }\OperatorTok{+}\StringTok{ }\NormalTok{vs, }\DataTypeTok{data =}\NormalTok{ data, }\DataTypeTok{type =} \StringTok{"point"}\NormalTok{, }\DataTypeTok{color =} \StringTok{"gear"}\NormalTok{)}
+\NormalTok{r1}
+\NormalTok{r1}\OperatorTok{$}\KeywordTok{print}\NormalTok{(}\StringTok{"chart1"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 Adding javascript
 
@@ -197,6 +219,37 @@ Adding javascript
 
 Interactive time series plot
 \href{https://github.com/oesmith/morris.js}{with Morris JS}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# need eval = F to fix 'opts_current' when knitting }
+\KeywordTok{data}\NormalTok{(economics, }\DataTypeTok{package =} \StringTok{"ggplot2"}\NormalTok{)}
+\NormalTok{econ <-}\StringTok{ }\KeywordTok{transform}\NormalTok{(economics, }\DataTypeTok{date =} \KeywordTok{as.character}\NormalTok{(date))}
+\NormalTok{m1 <-}\StringTok{ }\KeywordTok{mPlot}\NormalTok{(}\DataTypeTok{x =} \StringTok{"date"}\NormalTok{, }\DataTypeTok{y =} \KeywordTok{c}\NormalTok{(}\StringTok{"psavert"}\NormalTok{, }\StringTok{"uempmed"}\NormalTok{), }\DataTypeTok{type =} \StringTok{"Line"}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ econ)}
+\NormalTok{m1}\OperatorTok{$}\KeywordTok{set}\NormalTok{(}\DataTypeTok{pointSize =} \DecValTok{0}\NormalTok{, }\DataTypeTok{lineWidth =} \DecValTok{1}\NormalTok{)}
+\NormalTok{m1}
+\CommentTok{# m1$print("chart2")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{NVD3}\label{nvd3}
+
+Interactive and re-usable charts using d3.js with
+\href{http://nvd3.org/}{NVD3}. Follows work of Mike Bostock with
+\href{https://bost.ocks.org/mike/chart/}{`Towards re-usable charts'}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data <-}\StringTok{ }\NormalTok{HairEyeColor}
+\NormalTok{data <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(}\KeywordTok{as.data.frame}\NormalTok{(data), Sex }\OperatorTok{==}\StringTok{ "Male"}\NormalTok{)}
+\NormalTok{n1 <-}\StringTok{ }\KeywordTok{with}\NormalTok{(data,}\KeywordTok{nPlot}\NormalTok{(Freq }\OperatorTok{~}\StringTok{ }\NormalTok{Hair, }\DataTypeTok{group =} \StringTok{"Eye"}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ data, }\DataTypeTok{type =} \StringTok{"multiBarChart"}\NormalTok{))}
+\NormalTok{n1}
+\NormalTok{??nPlot}
+\CommentTok{# n1$print("chart3") }
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{xCharts}\label{xcharts}
 
 \subsubsection{Rickshaw}\label{rickshaw}
 
@@ -218,6 +271,11 @@ Troubleshooting example.
 
 Examples of packages using my own data
 
+\subsubsection{Clickme}\label{clickme}
+
+Alternative to \texttt{rCharts} interactive plotting using
+\href{https://github.com/nachocab/clickme}{\texttt{Clickme}}.
+
 \subsubsection{\texorpdfstring{Other interactive plotting libraries in
 \texttt{R}}{Other interactive plotting libraries in R}}\label{other-interactive-plotting-libraries-in-r}
 
@@ -227,6 +285,24 @@ Examples of packages using my own data
   \href{https://github.com/nachocab/clickme}{Clickme}\\
 \item
   \href{http://rpubs.com/Koba/80208}{Rickshaw}
+\end{itemize}
+
+\subsubsection{References}\label{references}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/nachocab/clickme}{Clickme}\\
+\item
+  \href{http://nvd3.org/}{NVD3}\\
+\item
+  \href{https://github.com/Polychart/polychart2}{Polychart}\\
+\item
+  \href{http://ramnathv.github.io/rCharts/}{rCharts}\\
+\item
+  \href{http://rpubs.com/Koba/80208}{Rickshaw}\\
+\item
+  xCharts
 \end{itemize}
 
 \printbibliography

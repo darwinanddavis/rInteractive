@@ -11,13 +11,6 @@ linkcolor: pink
 urlcolor: blue
 citecolor: red
 output:
-  html_document:
-    highlight: tango
-    code_folding: hide
-    toc: yes
-    toc_depth: 4
-    number_sections: no
-    toc_float: yes
   pdf_document:
     includes:
       in_header: # add .tex file with header content
@@ -33,6 +26,13 @@ output:
     citation_package: biblatex # natbib
     latex_engine: xelatex #pdflatex # lualatex
     keep_tex: true # keep .tex file in dir 
+  html_document:
+    highlight: tango
+    code_folding: hide
+    toc: yes
+    toc_depth: 4
+    number_sections: no
+    toc_float: yes
   word_document:
     highlight: tango
     keep_md: yes
@@ -269,4 +269,16 @@ Alternative to `rCharts` interactive plotting using [`Clickme`](https://github.c
 ### Other interactive plotting libraries in `R`  
 - [Clickme](https://github.com/nachocab/clickme)  
 - [Rickshaw](http://rpubs.com/Koba/80208)
+
+### References  
+- [Clickme](https://github.com/nachocab/clickme)  
+- [NVD3](http://nvd3.org/)  
+- [Polychart](https://github.com/Polychart/polychart2)  
+- [rCharts](http://ramnathv.github.io/rCharts/)  
+- [Introduction to rCharts](http://ramnathv.github.io/rCharts/)     
+- [Rickshaw](http://rpubs.com/Koba/80208)  
+- xCharts    
+
+
+
 
